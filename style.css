@@ -1,0 +1,88 @@
+body {
+    background-color: whitesmoke;
+}
+#container {
+    background-color: white;
+    width: 60%;
+    height: 740px;
+}
+h2 {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    letter-spacing: 2px;
+    font-size: 30px;
+    position: relative;
+    top: 40px;
+}
+h6 {
+    font-weight: lighter;
+    font-size: smaller;
+    color: grey;
+    position: relative;
+    top: 10px;
+}
+h3 {
+    font-weight: lighter;
+    color: grey;
+    font-size: 27px;
+    font-family: sans-serif;
+    position: relative;
+    top: 10px;
+    right: 31px;
+}
+h4 {
+    font-size: 27px;
+    font-family: sans-serif;
+    position: relative;
+    left: 122px;
+    bottom: 57px;
+}
+.text {
+    width: 250px;
+    height: 30px;
+    border-radius: 20px;
+    border: whitesmoke 2px solid;
+}
+.button {
+    height: 35px;
+    width: 110px;
+    background-color: blue;
+    color: white;
+    border-radius: 20px;
+    border: blue 2px solid;
+}
+h5 {
+    font-family: sans-serif;
+    font-size: 14px;
+    font-weight: lighter;
+    color: grey;
+    position: relative;
+    bottom: 70px;
+}
+.box {
+    position: relative;
+    bottom: 60px;
+}
+.img-one {
+    width: 300px;
+    height: 250px;
+    
+}
+.img-two {
+    width: 300px;
+    height: 250px;
+}
+.images {
+    position: relative;
+    top: 40px;
+}
+.logo {
+    position: relative;
+    top: 100px;
+}
+.fa {
+    padding: 10px;
+    width: 20px;
+    text-align: center;
+    text-decoration: none;
+    margin: 5px 2px;
+  }
