@@ -3,8 +3,30 @@
 
 const submit_btn = document.querySelector('.button');
 const email = document.querySelector('.text');
+const emailErr = document.querySelector('.error');
 
+const handleEmailErr = (type) => {
+  if (type == "validate") {
+    emailErr.className = 'error active';
+    emailErr.innerHTML = "Invalid email";
+  } else if (type == "length") {
+    emailErr.className = 'error active';
+    emailErr.innerHTML = "Please enter an email";
+  }else if(type == "data sent"){
+    emailErr.className = 'error active success';
+    emailErr.innerHTML = "Email registered successfully!";
+    email.value = '';
+  }
+  
+};
 const test = () => {
+  if (email.validity.typeMismatch) {
+    handleEmailErr("validate");
+  } else if (email.value.length < 1) {
+    handleEmailErr("length");
+  } else {
+    emailErr.innerHTML = '';
+  }
   console.log(email.value);
 };
 
@@ -36,9 +58,18 @@ const sendHttpRequest = (method, url, data) => {
   return promise;
 };
 function validateEmail() {
-  const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  let validEmail = re.test(String(email.value).toLowerCase());
-  return validEmail;
+  let isValid = true;
+  if (email.validity.typeMismatch) {
+    handleEmailErr("validate");
+    isValid = false;
+  } else if (email.value.length < 1) {
+    handleEmailErr("length");
+    isValid = false;
+  } else {
+    emailErr.innerHTML = '';
+    isValid= true;
+  }
+  return isValid;
 }
 
 const sendData = () => {
@@ -48,15 +79,16 @@ const sendData = () => {
       "email": email.value
     })
       .then(responseData => {
-        alert('Thank You ');
+        handleEmailErr("data sent");
         console.log(responseData);
       })
       .catch(err => {
         console.log(err);
       });
-  } else {
-    alert('Invalid email address');
-  }
+  } 
+  // else {
+  //   alert('Invalid email address');
+  // }
 };
 
 
