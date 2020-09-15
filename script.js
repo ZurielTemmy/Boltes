@@ -1,34 +1,7 @@
-// const { rejects } = require("assert");
-// const { resolve } = require("path");
-
 const submit_btn = document.querySelector('.button');
 const email = document.querySelector('.text');
 const emailErr = document.querySelector('.error');
 
-const handleEmailErr = (type) => {
-  if (type == "validate") {
-    emailErr.className = 'error active';
-    emailErr.innerHTML = "Invalid email";
-  } else if (type == "length") {
-    emailErr.className = 'error active';
-    emailErr.innerHTML = "Please enter an email";
-  }else if(type == "data sent"){
-    emailErr.className = 'error active success';
-    emailErr.innerHTML = "Email registered successfully!";
-    email.value = '';
-  }
-  
-};
-const test = () => {
-  if (email.validity.typeMismatch) {
-    handleEmailErr("validate");
-  } else if (email.value.length < 1) {
-    handleEmailErr("length");
-  } else {
-    emailErr.innerHTML = '';
-  }
-  console.log(email.value);
-};
 
 const sendHttpRequest = (method, url, data) => {
   const promise = new Promise((resolve, reject) => {
@@ -57,44 +30,50 @@ const sendHttpRequest = (method, url, data) => {
   });
   return promise;
 };
+
 function validateEmail() {
-  let isValid = true;
-  if (email.validity.typeMismatch) {
-    handleEmailErr("validate");
-    isValid = false;
-  } else if (email.value.length < 1) {
-    handleEmailErr("length");
-    isValid = false;
-  } else {
-    emailErr.innerHTML = '';
-    isValid= true;
-  }
-  return isValid;
+  let typeMismatched = email.validity.typeMismatch;
+  let lengthIncorrect = email.value.length < 1;
+
+  return new Promise((resolve, reject) => {
+    if (typeMismatched) {
+      console.log('Not an email');
+      reject((() => {
+        emailErr.className = 'error active';
+        emailErr.innerHTML = "Invalid email";
+      })());
+    } else if (lengthIncorrect) {
+      console.log('Lenght < 1');
+      reject((() => {
+        emailErr.className = 'error active';
+        emailErr.innerHTML = "Please enter an email";
+      })());
+    }
+    else {
+      console.log('Email is valid');
+      resolve((() => {
+        emailErr.className = 'error active success';
+        emailErr.innerHTML = "Email registered successfully!";
+        email.value = '';
+      })());
+    }
+  });
 }
 
+
 const sendData = () => {
-  // let vEmail = validateEmail();
-  if (validateEmail()) {
+  validateEmail().then((message) => {
+    // message();
     sendHttpRequest('POST', 'https://boltesapi.herokuapp.com/api/emails', {
       "email": email.value
     })
       .then(responseData => {
-        handleEmailErr("data sent");
         console.log(responseData);
       })
       .catch(err => {
         console.log(err);
       });
-  } 
-  // else {
-  //   alert('Invalid email address');
-  // }
+  }).catch((error) => {
+  });
 };
-
-
-
-
-// email.addEventListener('click', validateEmail);
 submit_btn.addEventListener("click", sendData);
-
-// userAction();
